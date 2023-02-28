@@ -14,9 +14,9 @@ let btnSend = document.querySelector(".btn_send");
 //? для карточки
 let postList = document.querySelector(".post_list");
 
-addPost.addEventListener("click", () => {
-  modal.style.display = "block";
-});
+// addPost.addEventListener("click", () => {
+//   modal.style.display = "block";
+// });
 btnSend.addEventListener("click", async function () {
   let post = {
     region: region.value,
@@ -40,7 +40,7 @@ btnSend.addEventListener("click", async function () {
     headers: {
       "Content-Type": "application/json; charset=utf-8",
     },
-    body: JSON.stringify(obj),
+    body: JSON.stringify(post),
   });
   region.value = "";
   imageUrl.value = "";
@@ -70,7 +70,7 @@ async function render() {
       <p class="card-text">${item.countLike}</p>
       <p class="card-text">${item.comment}</p>
       <a href="#" id="${item.id} "class="btn btn-danger btn-delete">Delete</a>
-      <a href="#" id="${item.id}" class="btn btn-warning btn-edit" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</a>
+      <a href="#" id="${item.id}" class="btn btn-warning btn-edit" data-bs-toggle="modal" data-bs-target="#exampleModalforEdit">Edit</a>
     </div>
   </div>
    `;
@@ -87,3 +87,44 @@ document.addEventListener("click", async (e) => {
     render();
   }
 });
+
+let regionEdit = document.querySelector("#regionEdit");
+let imageUrlEdit = document.querySelector("#image_url_edit");
+let LikesEdit = document.querySelector("#likesEdit");
+let commentsEdit = document.querySelector("#commentsEdit");
+let modalEdit = document.querySelector("#exampleModalforEdit");
+
+function editPost() {
+  // let id = this.id;
+  // console.log(id);
+  let city = region.value;
+  let img = imageUrl.value;
+  let comm = comment.value;
+  let count = countLike.value;
+  console.log(city, img, comm, count);
+
+  if (!city || !img || !comm || !count) {
+    alert("заполните все поля");
+    return;
+  }
+
+  let editedPost = {
+    city: regionEdit.value,
+    img: imageUrlEdit.value,
+    count: LikesEdit.value,
+    comm: commentsEdit.value,
+  };
+  saveEdit(editedPost, id);
+  // console.log(editedPost);
+}
+
+function saveEdit(editedPost, id) {
+  fetch(`${API}/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json; charset=utf-8" },
+    body: JSON.stringify(editedPost),
+  }).then(() => render());
+  //? закрываем модальное окно
+  let modal = bootstrap.Modal.getInstance(modalEdit);
+  modal.hide();
+}
