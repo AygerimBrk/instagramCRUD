@@ -1,0 +1,5 @@
+@media all and (max-with: 800px) {
+  .profile {
+    width: 90%;
+  }
+}

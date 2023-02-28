@@ -69,7 +69,7 @@ btnSend.addEventListener("click", async function () {
 });
 
 async function render() {
-  let res = await fetch(`${API}?q=${searchVal}&_page=${currentPage}&_limit=2`);
+  let res = await fetch(`${API}?q=${searchVal}&_page=${currentPage}&_limit=1`);
   let twit = await res.json();
   pagination();
   postList.innerHTML = "";
@@ -86,7 +86,7 @@ async function render() {
   </div>
    </div>
     <img src="${item.imageUrl}" class="card-img-top" alt="...">
-    <h3 class="heart" >♡</h3>
+    <h3 id="${item.id}" class="heart" >♡</h3>
     <div class="card-body">
       <p class="card-text">${item.countLike} отметок "Нравится"</p>
       <p class="card-text text-secondary">Посмотреть все комментарии ${item.comment}</p>
@@ -97,6 +97,7 @@ async function render() {
    `;
     postList.append(newItem);
     let likes = document.querySelector(".heart");
+
     likes.addEventListener("click", () => {
       likes.innerText = "❤️";
     });
@@ -110,6 +111,7 @@ async function deletePost(id) {
   } catch (error) {
     console.log(error);
   }
+
   render();
 }
 //? for edit
@@ -172,7 +174,7 @@ function pagination() {
   fetch(`${API}?q=${searchVal}`)
     .then((res) => res.json())
     .then((data) => {
-      pageTotalCount = Math.ceil(data.length / 2);
+      pageTotalCount = Math.ceil(data.length / 1);
       paginationList.innerHTML = "";
       for (let i = 1; i <= pageTotalCount; i++) {
         if (currentPage == i) {
