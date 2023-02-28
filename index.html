@@ -36,16 +36,58 @@
     <div class="wrapper">
       <div class="container">
         <!-- INPUT START-modal1 -->
-        <div class="auth_form">
-          <div class="field">
-            <span>INSTAGRAM post:</span>
-            <input placeholder="city-country" type="text" id="region" />
-            <input placeholder="image_url" type="url" id="image_url" />
-            <input placeholder="count-likes" type="number" id="likes" />
-            <input placeholder="count-comments" type="number" id="comments" />
-          </div>
-          <div class="field">
-            <button class="btn">SEND</button>
+        <div
+          class="modal fade"
+          id="exampleModal"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                  INSTAGRAM post:
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <input
+                  placeholder="city-country"
+                  type="text"
+                  id="region"
+                  class="form-control mt-2"
+                />
+                <input
+                  placeholder="image_url"
+                  type="url"
+                  id="image_url"
+                  class="form-control mt-2"
+                />
+                <input
+                  placeholder="count-likes"
+                  type="number"
+                  id="likes"
+                  class="form-control mt-2"
+                />
+                <input
+                  placeholder="count-comments"
+                  type="number"
+                  id="comments"
+                  class="form-control mt-2"
+                />
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn_send" data-bs-dismiss="modal">
+                  Send
+                </button>
+              </div>
+            </div>
           </div>
         </div>
         <!-- INPUT END -->
@@ -60,7 +102,13 @@
           <div class="control_btn">
             <button class="follow">Follow</button>
             <button class="messange">Messange</button>
-            <button class="add_post">+</button>
+            <button
+              class="add_post"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            >
+              +
+            </button>
           </div>
         </div>
         <!-- PROFILE end -->

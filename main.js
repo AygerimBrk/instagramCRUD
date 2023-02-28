@@ -10,7 +10,7 @@ let region = document.querySelector("#region");
 let imageUrl = document.querySelector("#image_url");
 let countLike = document.querySelector("#likes");
 let comment = document.querySelector("#comments");
-let btnSend = document.querySelector(".btn");
+let btnSend = document.querySelector(".btn_send");
 //? для карточки
 let postList = document.querySelector(".post_list");
 

@@ -44,33 +44,12 @@ body {
   padding: 10px;
 }
 
-.auth_form {
-  display: inline-block;
-  margin: auto;
-  padding: 2rem;
-  background-color: transparent;
-  border-radius: 5px;
-  text-align: right;
-}
-
-.field {
-  display: none !important;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 span {
   margin-top: 4px;
   color: #0a0908;
 }
-.field input {
-  border: 0;
-  border-radius: 5px;
-  padding: 6px;
-  margin-top: 5px;
-}
 
-.btn {
+.modal-footer button {
   margin-top: 1rem;
   padding: 10px;
   color: beige;
@@ -80,7 +59,7 @@ span {
   cursor: pointer;
 }
 
-.btn:hover {
+button:hover {
   background-color: #90a955;
   transition: 0.3s;
 }
