@@ -66,7 +66,7 @@ async function render() {
    <div class="d-flex flex-direction-row">
    <img src="${imgProf.src}" class="card-img" alt="...">
    <div class="textPost">
-   <h5 class="card-title mb-0">${nickName.innerText}</h5>
+   <h5 class="card-title mb-0 mt-1">${nickName.innerText}</h5>
   <p class="card-text">${item.region}</p>
   </div>
    </div>
