@@ -15,15 +15,12 @@ body {
   padding: 1rem;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
-
-.container:first-child {
-  text-align: center;
-}
-
+/* navbar */
 .navbar {
   background-color: #8cb369;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+/* profile */
 .profile {
   display: flex;
   flex-direction: row;
@@ -43,11 +40,7 @@ body {
   border-radius: 50%;
   padding: 10px;
 }
-.card-img {
-  width: 56px;
-  border-radius: 50%;
-  padding: 7px;
-}
+/* input modal */
 span {
   margin-top: 4px;
   color: #0a0908;
@@ -66,6 +59,12 @@ span {
 button:hover {
   background-color: #90a955;
   transition: 0.3s;
+}
+/* content */
+.card-img {
+  width: 56px;
+  border-radius: 50%;
+  padding: 7px;
 }
 .textPost {
   display: flex;
