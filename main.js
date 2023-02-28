@@ -10,16 +10,6 @@ let comment = document.querySelector("#comments");
 let btnSend = document.querySelector(".btn");
 //? для карточки
 let postList = document.querySelector(".post_list");
-// console.log(
-//   profilePhoto,
-//   nickName,
-//   region,
-//   imageUrl,
-//   countLike,
-//   comment,
-//   btnSend,
-//   postList
-// );
 
 btnSend.addEventListener("click", async function () {
   let post = {
