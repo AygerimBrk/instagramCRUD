@@ -23,9 +23,6 @@ let pageTotalCount = 1;
 let searchInp = document.querySelector("#search");
 let searchVal = "";
 
-// addPost.addEventListener("click", () => {
-//   modal.style.display = "block";
-// });
 btnSend.addEventListener("click", async function () {
   let post = {
     region: region.value,
@@ -69,16 +66,12 @@ async function render() {
    <div class="d-flex flex-direction-row">
    <img src="${imgProf.src}" class="card-img" alt="...">
    <div class="textPost">
-   <h5 class="card-title mb-0">${nickName.innerText}</h5>
+   <h5 class="card-title mb-0 mt-1">${nickName.innerText}</h5>
   <p class="card-text">${item.region}</p>
   </div>
    </div>
     <img src="${item.imageUrl}" class="card-img-top" alt="...">
     <div class="card-body">
-      <p class="card-text">${item.countLike}</p>
-      <p class="card-text">${item.comment}</p>
-      <a href="#" id="${item.id} "class="btn btn-danger btn-delete">Delete</a>
-      <a href="#" id="${item.id}" class="btn btn-warning btn-edit" data-bs-toggle="modal" data-bs-target="#exampleModalforEdit">Edit</a>
       <p class="card-text">${item.countLike} отметок "Нравится"</p>
       <p class="card-text text-secondary">Посмотреть все комментарии ${item.comment}</p>
       <button onclick ="deletePost(${item.id})" class="btn btn-danger btn-delete">Delete</button>
@@ -190,9 +183,7 @@ let LikesEdit = document.querySelector("#likesEdit");
 let commentsEdit = document.querySelector("#commentsEdit");
 let modalEdit = document.querySelector("#exampleModalforEdit");
 
-
 searchInp.addEventListener("input", () => {
   searchVal = searchInp.value;
   render();
 });
-
