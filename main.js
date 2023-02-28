@@ -36,6 +36,7 @@ function twitCount() {
     });
   render();
 }
+// при обновлении работает
 twitCount();
 btnSend.addEventListener("click", async function () {
   let post = {
@@ -90,11 +91,15 @@ async function render() {
       <p class="card-text">${item.countLike} отметок "Нравится"</p>
       <p class="card-text text-secondary">Посмотреть все комментарии ${item.comment}</p>
       <button onclick ="deletePost(${item.id})" class="btn btn-danger btn-delete">Delete</button>
-      <button id="${item.id}" class="btn btn-warning btn-edit" data-bs-toggle="modal" data-bs-target="#exampleModalforEdit">Edit</button>
+      <button id="${item.id}" class="btn btn-success btn-edit" data-bs-toggle="modal" data-bs-target="#exampleModalforEdit">Edit</button>
     </div>
   </div>
    `;
     postList.append(newItem);
+    let likes = document.querySelector(".heart");
+    likes.addEventListener("click", () => {
+      likes.innerText = "❤️";
+    });
   });
 }
 render();
