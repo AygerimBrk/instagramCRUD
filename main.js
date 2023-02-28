@@ -1,7 +1,7 @@
 const API = "http://localhost:8000/Post";
 
 //? переменные для профиля
-let nickName = document.querySelector(".nick_name");
+let nickName = document.querySelector(".nickName");
 let imgProf = document.querySelector(".imgProf");
 let addPost = document.querySelector(".add_post");
 let modal = document.querySelector(".field");
@@ -13,6 +13,15 @@ let comment = document.querySelector("#comments");
 let btnSend = document.querySelector(".btn_send");
 //? для карточки
 let postList = document.querySelector(".post_list");
+// ?pagination
+let paginationList = document.querySelector(".pagination-list");
+let prev = document.querySelector(".prev");
+let next = document.querySelector(".next");
+let currentPage = 1;
+let pageTotalCount = 1;
+// ? search
+let searchInp = document.querySelector("#search");
+let searchVal = "";
 
 // addPost.addEventListener("click", () => {
 //   modal.style.display = "block";
@@ -24,8 +33,6 @@ btnSend.addEventListener("click", async function () {
     countLike: countLike.value,
     comment: comment.value,
   };
-  //   console.log(obj);
-
   if (
     !post.region.trim() ||
     !post.imageUrl.trim() ||
@@ -50,50 +57,45 @@ btnSend.addEventListener("click", async function () {
 });
 
 async function render() {
-  let res = await fetch(`${API}`);
-  let products = await res.json();
-  // console.log(products);
-
-  //   drawPaginationButtons();
+  let res = await fetch(`${API}?q=${searchVal}&_page=${currentPage}&_limit=2`);
+  let twit = await res.json();
+  pagination();
   postList.innerHTML = "";
-  products.forEach((item) => {
+  twit.forEach((item) => {
     let newItem = document.createElement("div");
     newItem.id = item.id;
     newItem.innerHTML = `
    <div class="card m-5" style="width: 18rem;">
-   <div>
-   <img src="${item.imageUrl}" class="card-img-top" alt="...">
-   <div><h5 class="card-title">${nickName}</h5></div>
-   <div><p class="card-text">${item.region}</p></div></div>
+   <div class="d-flex flex-direction-row">
+   <img src="${imgProf.src}" class="card-img" alt="...">
+   <div class="textPost">
+   <h5 class="card-title mb-0">${nickName.innerText}</h5>
+  <p class="card-text">${item.region}</p>
+  </div>
+   </div>
     <img src="${item.imageUrl}" class="card-img-top" alt="...">
     <div class="card-body">
       <p class="card-text">${item.countLike}</p>
       <p class="card-text">${item.comment}</p>
       <a href="#" id="${item.id} "class="btn btn-danger btn-delete">Delete</a>
       <a href="#" id="${item.id}" class="btn btn-warning btn-edit" data-bs-toggle="modal" data-bs-target="#exampleModalforEdit">Edit</a>
+      <p class="card-text">${item.countLike} отметок "Нравится"</p>
+      <p class="card-text text-secondary">Посмотреть все комментарии ${item.comment}</p>
+      <button onclick ="deletePost(${item.id})" class="btn btn-danger btn-delete">Delete</button>
+      <button onclick ="editPost(${item.id})" class="btn btn-warning btn-edit">Edit</button>
     </div>
   </div>
    `;
+
     postList.append(newItem);
   });
 }
 render();
-//? слушатель событие на весь document
-document.addEventListener("click", async (e) => {
-  if (e.target.classList.contains("btn-delete")) {
-    console.log("delete clicked");
-    let id = e.target.id;
-    await fetch(`${API}/${id}`, { method: "DELETE" });
-    render();
-  }
-});
 
-let regionEdit = document.querySelector("#regionEdit");
-let imageUrlEdit = document.querySelector("#image_url_edit");
-let LikesEdit = document.querySelector("#likesEdit");
-let commentsEdit = document.querySelector("#commentsEdit");
-let modalEdit = document.querySelector("#exampleModalforEdit");
-
+async function deletePost(id) {
+  await fetch(`${API}/${id}`, { method: "DELETE" });
+  render();
+}
 function editPost() {
   // let id = this.id;
   // console.log(id);
@@ -128,3 +130,69 @@ function saveEdit(editedPost, id) {
   let modal = bootstrap.Modal.getInstance(modalEdit);
   modal.hide();
 }
+function pagination() {
+  fetch(`${API}?q=${searchVal}`)
+    .then((res) => res.json())
+    .then((data) => {
+      pageTotalCount = Math.ceil(data.length / 2);
+      paginationList.innerHTML = "";
+      for (let i = 1; i <= pageTotalCount; i++) {
+        if (currentPage == i) {
+          let page1 = document.createElement("li");
+          page1.innerHTML = `<li class="page-item active"><a class="page-link page_number" href="#">${i}</a></li>`;
+          paginationList.append(page1);
+        } else {
+          let page1 = document.createElement("li");
+          page1.innerHTML = `<li class="page-item"><a class="page-link page_number" href="#">${i}</a></li>`;
+          paginationList.append(page1);
+        }
+      }
+      if (currentPage == 1) {
+        prev.classList.add("disabled");
+      } else {
+        prev.classList.remove("disabled");
+      }
+
+      if (currentPage == pageTotalCount) {
+        next.classList.add("disabled");
+      } else {
+        next.classList.remove("disabled");
+      }
+    });
+}
+
+prev.addEventListener("click", () => {
+  if (currentPage <= 1) {
+    return;
+  }
+  currentPage--;
+  render();
+});
+
+next.addEventListener("click", () => {
+  if (currentPage >= pageTotalCount) {
+    return;
+  }
+  currentPage++;
+  render();
+});
+
+document.addEventListener("click", function (e) {
+  if (e.target.classList.contains("page_number")) {
+    currentPage = e.target.innerText;
+    render();
+  }
+});
+
+let regionEdit = document.querySelector("#regionEdit");
+let imageUrlEdit = document.querySelector("#image_url_edit");
+let LikesEdit = document.querySelector("#likesEdit");
+let commentsEdit = document.querySelector("#commentsEdit");
+let modalEdit = document.querySelector("#exampleModalforEdit");
+
+
+searchInp.addEventListener("input", () => {
+  searchVal = searchInp.value;
+  render();
+});
+
