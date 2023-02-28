@@ -9,3 +9,4 @@ let countLike = document.querySelector("#likes");
 let comment = document.querySelector("#comments");
 let btnSend = document.querySelector(".btn");
 let postList = document.querySelector(".post_list");
+let modal = document.querySelector(".field");
