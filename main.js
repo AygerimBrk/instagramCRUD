@@ -1,8 +1,11 @@
 const API = "http://localhost:8000/Post";
 
+//? переменные для профиля
+let nickName = document.querySelector(".nick_name");
+let imgProf = document.querySelector(".imgProf");
+let addPost = document.querySelector(".add_post");
+let modal = document.querySelector(".field");
 //? переменные для инпутов
-// let profilePhoto = document.querySelector("#profile_photo_url");
-let nickName = document.querySelector("#nick_name");
 let region = document.querySelector("#region");
 let imageUrl = document.querySelector("#image_url");
 let countLike = document.querySelector("#likes");
@@ -11,6 +14,9 @@ let btnSend = document.querySelector(".btn");
 //? для карточки
 let postList = document.querySelector(".post_list");
 
+addPost.addEventListener("click", () => {
+  modal.style.display = "block";
+});
 btnSend.addEventListener("click", async function () {
   let post = {
     region: region.value,
