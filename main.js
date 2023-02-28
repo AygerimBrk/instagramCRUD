@@ -22,7 +22,21 @@ let pageTotalCount = 1;
 // ? search
 let searchInp = document.querySelector("#search");
 let searchVal = "";
+// ?twit
+let twit = document.querySelector(".twit_count");
 
+function twitCount() {
+  fetch(API)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      let countTwit = document.createElement("div");
+      countTwit.innerHTML = `<p>${data.length} публикаций</p>`;
+      twit.append(countTwit);
+    });
+  render();
+}
+twitCount();
 btnSend.addEventListener("click", async function () {
   let post = {
     region: region.value,
@@ -86,7 +100,11 @@ async function render() {
 render();
 
 async function deletePost(id) {
-  await fetch(`${API}/${id}`, { method: "DELETE" });
+  try {
+    await fetch(`${API}/${id}`, { method: "DELETE" });
+  } catch (error) {
+    console.log(error);
+  }
   render();
 }
 function editPost() {
