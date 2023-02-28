@@ -85,15 +85,15 @@ async function render() {
   </div>
    </div>
     <img src="${item.imageUrl}" class="card-img-top" alt="...">
+    <h3 class="heart" >♡</h3>
     <div class="card-body">
       <p class="card-text">${item.countLike} отметок "Нравится"</p>
       <p class="card-text text-secondary">Посмотреть все комментарии ${item.comment}</p>
       <button onclick ="deletePost(${item.id})" class="btn btn-danger btn-delete">Delete</button>
-      <button onclick ="editPost(${item.id})" class="btn btn-warning btn-edit">Edit</button>
+      <button id="${item.id}" class="btn btn-warning btn-edit" data-bs-toggle="modal" data-bs-target="#exampleModalforEdit">Edit</button>
     </div>
   </div>
    `;
-
     postList.append(newItem);
   });
 }
@@ -107,29 +107,52 @@ async function deletePost(id) {
   }
   render();
 }
-function editPost() {
-  // let id = this.id;
-  // console.log(id);
-  let city = region.value;
-  let img = imageUrl.value;
-  let comm = comment.value;
-  let count = countLike.value;
-  console.log(city, img, comm, count);
+//? for edit
+let regionEdit = document.querySelector("#regionEdit");
+let imageUrlEdit = document.querySelector("#image_url_edit");
+let LikesEdit = document.querySelector("#likesEdit");
+let commentsEdit = document.querySelector("#comments_edit");
+let btnEdit = document.querySelector(".btnEdit");
+let modalEdit = document.querySelector("#exampleModalforEdit");
 
-  if (!city || !img || !comm || !count) {
+document.addEventListener("click", function (e) {
+  if (e.target.classList.contains("btn-edit")) {
+    let id = e.target.id;
+    fetch(`${API}/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        regionEdit.value = data.region;
+        imageUrlEdit.value = data.imageUrl;
+        commentsEdit.value = data.comment;
+        LikesEdit.value = data.countLike;
+
+        btnEdit.id = data.id;
+      });
+  }
+});
+
+btnEdit.addEventListener("click", function () {
+  let id = this.id;
+  // console.log(id);
+  region = regionEdit.value;
+  imageUrl = imageUrlEdit.value;
+  comment = commentsEdit.value;
+  countLike = LikesEdit.value;
+  if (!region || !imageUrl || !comment || !countLike) {
     alert("заполните все поля");
     return;
   }
 
   let editedPost = {
-    city: regionEdit.value,
-    img: imageUrlEdit.value,
-    count: LikesEdit.value,
-    comm: commentsEdit.value,
+    region,
+    imageUrl,
+    countLike,
+    comment,
   };
   saveEdit(editedPost, id);
   // console.log(editedPost);
-}
+});
 
 function saveEdit(editedPost, id) {
   fetch(`${API}/${id}`, {
@@ -137,7 +160,6 @@ function saveEdit(editedPost, id) {
     headers: { "Content-Type": "application/json; charset=utf-8" },
     body: JSON.stringify(editedPost),
   }).then(() => render());
-  //? закрываем модальное окно
   let modal = bootstrap.Modal.getInstance(modalEdit);
   modal.hide();
 }
@@ -195,13 +217,13 @@ document.addEventListener("click", function (e) {
   }
 });
 
-let regionEdit = document.querySelector("#regionEdit");
-let imageUrlEdit = document.querySelector("#image_url_edit");
-let LikesEdit = document.querySelector("#likesEdit");
-let commentsEdit = document.querySelector("#commentsEdit");
-let modalEdit = document.querySelector("#exampleModalforEdit");
-
 searchInp.addEventListener("input", () => {
   searchVal = searchInp.value;
   render();
+});
+
+let message = document.querySelector(".messange");
+message.addEventListener("click", () => {
+  prompt("your message for us");
+  console.log(prompt);
 });
