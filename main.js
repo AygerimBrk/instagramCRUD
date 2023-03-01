@@ -5,6 +5,7 @@ let nickName = document.querySelector(".nickName");
 let imgProf = document.querySelector(".imgProf");
 let addPost = document.querySelector(".add_post");
 let modal = document.querySelector(".field");
+let follow = document.querySelector(".follow");
 //? переменные для инпутов
 let region = document.querySelector("#region");
 let imageUrl = document.querySelector("#image_url");
@@ -25,11 +26,14 @@ let searchVal = "";
 // ?twit
 let twit = document.querySelector(".twit_count");
 
+follow.addEventListener("click", () => {
+  follow.style.backgroundColor = "#30b4d8";
+});
 function twitCount() {
   fetch(API)
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
+      // console.log(data);
       let countTwit = document.createElement("div");
       countTwit.innerHTML = `<p>${data.length} публикаций</p>`;
       twit.append(countTwit);
@@ -86,9 +90,9 @@ async function render() {
   </div>
    </div>
     <img src="${item.imageUrl}" class="card-img-top" alt="...">
-    <h3 id="${item.id}" class="heart" >♡</h3>
+    <h3 class="heart">♡</h3>
     <div class="card-body">
-      <p class="card-text">${item.countLike} отметок "Нравится"</p>
+      <p class="card-text likePlus">${item.countLike} отметок "Нравится"</p>
       <p class="card-text text-secondary">Посмотреть все комментарии ${item.comment}</p>
       <button onclick ="deletePost(${item.id})" class="btn btn-danger btn-delete">Delete</button>
       <button id="${item.id}" class="btn btn-success btn-edit" data-bs-toggle="modal" data-bs-target="#exampleModalforEdit">Edit</button>
@@ -97,9 +101,14 @@ async function render() {
    `;
     postList.append(newItem);
     let likes = document.querySelector(".heart");
-
+    let likePlus = document.querySelector(".likePlus");
     likes.addEventListener("click", () => {
       likes.innerText = "❤️";
+      likes.id = item.id;
+      if (likes.innerText == "❤️") {
+        let result = Number(item.countLike) + 1;
+        likePlus.innerText = `${result} отметок "Нравится"`;
+      }
     });
   });
 }
@@ -231,6 +240,6 @@ searchInp.addEventListener("input", () => {
 
 let message = document.querySelector(".messange");
 message.addEventListener("click", () => {
-  prompt("your message for us");
-  console.log(prompt);
+  let mes = prompt("your message for us");
+  console.log(mes);
 });
